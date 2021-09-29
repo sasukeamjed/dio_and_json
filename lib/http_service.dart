@@ -17,9 +17,15 @@ class HttpService{
     print("start of request");
     Response response;
     try {
+
       response = await _dio.get(endPoint);
+      print(response.statusCode);
       print("after a request");
     } on DioError catch (e) {
+      if(e.type == DioErrorType.connectTimeout){
+        print("Connection  Timeout Exception");
+        throw Exception("Connection  Timeout Exception");
+      }
       print(e.message);
       throw Exception(e.message);
     }
@@ -29,14 +35,17 @@ class HttpService{
 
   initialaizeInterceptors(){
     _dio.interceptors.add(InterceptorsWrapper(
-      onError: (error, _){
+      onError: (error, handler){
         print(error.message);
+        handler.next(error);
       },
-      onRequest: (request, _){
+      onRequest: (request, handler){
         print("${request.method} ${request.baseUrl} ${request.path}");
+        handler.next(request);
       },
-      onResponse: (response, _){
+      onResponse: (response, handler){
         print(response.data);
+        handler.next(response);
       },
     ));
   }

@@ -1,3 +1,4 @@
+import 'package:dio_and_json/screen/list_user_screen.dart';
 import 'package:dio_and_json/screen/single_user_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -20,7 +21,7 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: SingleUserScreen(),
+      home: ListUserScreen(),
     );
   }
 }
