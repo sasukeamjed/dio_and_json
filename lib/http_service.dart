@@ -14,14 +14,16 @@ class HttpService{
   }
 
   Future<Response> getRequest(String endPoint) async{
+    print("start of request");
     Response response;
     try {
       response = await _dio.get(endPoint);
+      print("after a request");
     } on DioError catch (e) {
       print(e.message);
       throw Exception(e.message);
     }
-
+    print("end of response");
     return response;
   }
 
@@ -31,7 +33,7 @@ class HttpService{
         print(error.message);
       },
       onRequest: (request, _){
-        print("${request.method} ${request.path}");
+        print("${request.method} ${request.baseUrl} ${request.path}");
       },
       onResponse: (response, _){
         print(response.data);
